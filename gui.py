@@ -94,23 +94,6 @@ def page3(result,subcode='23CPP'):
         height=94.0
     )
 
-    button_image_2 = PhotoImage(
-        file=relative_to_assets("button_2.png"))
-    button_2 = Button(
-        canvas2,
-        image=button_image_2,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_2 clicked"),
-        relief="flat"
-    )
-    button_2.place(
-        x=68.0,
-        y=584.0,
-        width=1143.0,
-        height=94.0
-    )
-
     button_image_3 = PhotoImage(
         file=relative_to_assets("button_3.png"))
     button_3 = Button(
@@ -123,7 +106,7 @@ def page3(result,subcode='23CPP'):
     )
     button_3.place(
         x=68.0,
-        y=703.0,
+        y=584.0,
         width=1143.0,
         height=94.0
     )
@@ -139,6 +122,23 @@ def page3(result,subcode='23CPP'):
         relief="flat"
     )
     button_4.place(
+        x=68.0,
+        y=703.0,
+        width=1143.0,
+        height=94.0
+    )
+
+    button_image_2 = PhotoImage(
+        file=relative_to_assets("button_2.png"))
+    button_2 = Button(
+        canvas2,
+        image=button_image_2,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: print("button_2 clicked"),
+        relief="flat"
+    )
+    button_2.place(
         x=68.0,
         y=465.0,
         width=1143.0,
@@ -156,6 +156,7 @@ def page2(result):
         return ASSETS_PATH / Path(path)
 
     canvas1 = Canvas(
+        window,
         bg="#FFFFFF",
         height=832,
         width=1280,
