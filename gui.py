@@ -1,7 +1,7 @@
 import tkinter
 import mysql.connector
 from pathlib import Path
-from subprocess import call
+from sql_connector import select_sub
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 
 def page3(result,subcode='23CPP'):
@@ -10,7 +10,7 @@ def page3(result,subcode='23CPP'):
 
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
-
+    questions=select_sub(sub_code=subcode)
     canvas2 = Canvas(
         window,
         bg="#FFFFFF",
@@ -67,6 +67,16 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 28 * -1)
     )
 
+
+    canvas2.create_text(
+        92.0,
+        151.0,
+        anchor="nw",
+        text="lorem ipsum",
+        fill="#000000",
+        font=("RobotoRoman Regular", 32 * -1)
+    )
+
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = Button(
@@ -84,15 +94,6 @@ def page3(result,subcode='23CPP'):
         height=94.0
     )
 
-    canvas2.create_text(
-        92.0,
-        151.0,
-        anchor="nw",
-        text="lorem ipsum",
-        fill="#000000",
-        font=("RobotoRoman Regular", 32 * -1)
-    )
-
     button_image_2 = PhotoImage(
         file=relative_to_assets("button_2.png"))
     button_2 = Button(
@@ -105,7 +106,7 @@ def page3(result,subcode='23CPP'):
     )
     button_2.place(
         x=68.0,
-        y=346.0,
+        y=584.0,
         width=1143.0,
         height=94.0
     )
@@ -122,7 +123,7 @@ def page3(result,subcode='23CPP'):
     )
     button_3.place(
         x=68.0,
-        y=584.0,
+        y=703.0,
         width=1143.0,
         height=94.0
     )
@@ -138,23 +139,6 @@ def page3(result,subcode='23CPP'):
         relief="flat"
     )
     button_4.place(
-        x=68.0,
-        y=703.0,
-        width=1143.0,
-        height=94.0
-    )
-
-    button_image_5 = PhotoImage(
-        file=relative_to_assets("button_5.png"))
-    button_5 = Button(
-        canvas2,
-        image=button_image_5,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_5 clicked"),
-        relief="flat"
-    )
-    button_5.place(
         x=68.0,
         y=465.0,
         width=1143.0,
