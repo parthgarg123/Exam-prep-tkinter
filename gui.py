@@ -11,11 +11,6 @@ def page3(result,subcode='23CPP'):
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
 
-    window = Tk()
-
-    window.geometry("1280x832")
-    window.configure(bg="#FFFFFF")
-
     canvas2 = Canvas(
         window,
         bg="#FFFFFF",
