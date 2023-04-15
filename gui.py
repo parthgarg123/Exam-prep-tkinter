@@ -5,12 +5,32 @@ from sql_connector import select_sub
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 
 
-ques_no=0
 def page3(result,subcode='23CPP'):
     no_corr_ans=0
-
+    ques_no = 1
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build/assets3/frame0")
+    def update(j):
+        canvas2.itemconfig(ques,text=questions[j][0])
+        str1.set(questions[j][1])
+        str2.set(questions[j][2])
+        str3.set(questions[j][3])
+        str4.set(questions[j][4])
+
+    def next(ans,j):
+        if j<6:
+            if j != 0:
+                corr_ans = questions[j - 1][5][-1]
+            nonlocal ques_no,no_corr_ans
+            ques_no+=1
+            if ans==corr_ans:
+                print("correct")
+                no_corr_ans+=1
+            else:
+                print("wrong")
+        if j<5:
+            update(j)
+
 
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
@@ -78,10 +98,12 @@ def page3(result,subcode='23CPP'):
         anchor="nw",
         text="",
         fill="#000000",
-        font=("RobotoRoman Regular", 32 * -1)
+        font=("RobotoRoman Regular", 32 * -1),
+        width=1120
+
     )
 
-    str1=tkinter.StringVar(value='The Tkinter module defines a number of anchor constants that you can use to control where items are positioned relative to their context. For example, anchors can specify where a widget is located inside a frame when the frame is bigger than the widget')
+    str1=tkinter.StringVar(value='')
     button_1 = Button(
         canvas2,
         textvariable=str1,
@@ -89,7 +111,7 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 20 * -1),
         highlightthickness=0,
         wraplength=1050,
-        command=lambda: update(j=ques_no+1),
+        command=lambda: next('1',j=ques_no),
         relief="flat"
     )
     button_1.place(
@@ -105,7 +127,7 @@ def page3(result,subcode='23CPP'):
         borderwidth=0,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: update(j=ques_no+1),
+        command=lambda: next('3',j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -122,7 +144,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str4,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: update(j=ques_no+1),
+        command=lambda: next('4',j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -139,7 +161,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str2,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: update(j=ques_no+1),
+        command=lambda: next('2',j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -150,16 +172,8 @@ def page3(result,subcode='23CPP'):
         height=94.0
     )
 
-    def update(j=0):
-        canvas2.itemconfig(ques,text=questions[j][0])
-        str1.set(questions[j][1])
-        str2.set(questions[j][2])
-        str3.set(questions[j][3])
-        str4.set(questions[j][4])
-        corr_ans=questions[j][5][-1]
-        global ques_no
-        ques_no+=1
-    update()
+    update(0)
+
 
 
     window.resizable(False, False)
