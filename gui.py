@@ -67,23 +67,23 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 28 * -1)
     )
 
-
     canvas2.create_text(
         92.0,
         151.0,
         anchor="nw",
-        text="lorem ipsum",
+        text=questions[0][0],
         fill="#000000",
         font=("RobotoRoman Regular", 32 * -1)
     )
 
-    button_image_1 = PhotoImage(
-        file=relative_to_assets("button_1.png"))
+    str1=tkinter.StringVar(value='The Tkinter module defines a number of anchor constants that you can use to control where items are positioned relative to their context. For example, anchors can specify where a widget is located inside a frame when the frame is bigger than the widget')
     button_1 = Button(
         canvas2,
-        image=button_image_1,
+        textvariable=str1,
         borderwidth=0,
+        font=("RobotoRoman Regular", 20 * -1),
         highlightthickness=0,
+        wraplength=1050,
         command=lambda: print("button_1 clicked"),
         relief="flat"
     )
@@ -93,15 +93,15 @@ def page3(result,subcode='23CPP'):
         width=1143.0,
         height=94.0
     )
-
-    button_image_3 = PhotoImage(
-        file=relative_to_assets("button_3.png"))
+    str3 = tkinter.StringVar(value="")
     button_3 = Button(
         canvas2,
-        image=button_image_3,
+        textvariable=str3,
         borderwidth=0,
         highlightthickness=0,
+        font=("RobotoRoman Regular", 20 * -1),
         command=lambda: print("button_3 clicked"),
+        wraplength=1050,
         relief="flat"
     )
     button_3.place(
@@ -110,15 +110,15 @@ def page3(result,subcode='23CPP'):
         width=1143.0,
         height=94.0
     )
-
-    button_image_4 = PhotoImage(
-        file=relative_to_assets("button_4.png"))
+    str4 = tkinter.StringVar(value="")
     button_4 = Button(
         canvas2,
-        image=button_image_4,
         borderwidth=0,
+        textvariable=str4,
         highlightthickness=0,
+        font=("RobotoRoman Regular", 20 * -1),
         command=lambda: print("button_4 clicked"),
+        wraplength=1050,
         relief="flat"
     )
     button_4.place(
@@ -127,15 +127,15 @@ def page3(result,subcode='23CPP'):
         width=1143.0,
         height=94.0
     )
-
-    button_image_2 = PhotoImage(
-        file=relative_to_assets("button_2.png"))
+    str2 = tkinter.StringVar(value="")
     button_2 = Button(
         canvas2,
-        image=button_image_2,
         borderwidth=0,
+        textvariable=str2,
         highlightthickness=0,
+        font=("RobotoRoman Regular", 20 * -1),
         command=lambda: print("button_2 clicked"),
+        wraplength=1050,
         relief="flat"
     )
     button_2.place(
