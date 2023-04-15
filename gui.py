@@ -4,13 +4,18 @@ from pathlib import Path
 from sql_connector import select_sub
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 
+
+ques_no=0
 def page3(result,subcode='23CPP'):
+    no_corr_ans=0
+
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build/assets3/frame0")
 
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
     questions=select_sub(sub_code=subcode)
+
     canvas2 = Canvas(
         window,
         bg="#FFFFFF",
@@ -67,11 +72,11 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 28 * -1)
     )
 
-    canvas2.create_text(
+    ques = canvas2.create_text(
         92.0,
         151.0,
         anchor="nw",
-        text=questions[0][0],
+        text="",
         fill="#000000",
         font=("RobotoRoman Regular", 32 * -1)
     )
@@ -84,7 +89,7 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 20 * -1),
         highlightthickness=0,
         wraplength=1050,
-        command=lambda: print("button_1 clicked"),
+        command=lambda: update(j=ques_no+1),
         relief="flat"
     )
     button_1.place(
@@ -100,7 +105,7 @@ def page3(result,subcode='23CPP'):
         borderwidth=0,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: print("button_3 clicked"),
+        command=lambda: update(j=ques_no+1),
         wraplength=1050,
         relief="flat"
     )
@@ -117,7 +122,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str4,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: print("button_4 clicked"),
+        command=lambda: update(j=ques_no+1),
         wraplength=1050,
         relief="flat"
     )
@@ -134,7 +139,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str2,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: print("button_2 clicked"),
+        command=lambda: update(j=ques_no+1),
         wraplength=1050,
         relief="flat"
     )
@@ -144,6 +149,19 @@ def page3(result,subcode='23CPP'):
         width=1143.0,
         height=94.0
     )
+
+    def update(j=0):
+        canvas2.itemconfig(ques,text=questions[j][0])
+        str1.set(questions[j][1])
+        str2.set(questions[j][2])
+        str3.set(questions[j][3])
+        str4.set(questions[j][4])
+        corr_ans=questions[j][5][-1]
+        global ques_no
+        ques_no+=1
+    update()
+
+
     window.resizable(False, False)
     window.mainloop()
 
