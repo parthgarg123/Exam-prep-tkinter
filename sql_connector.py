@@ -14,7 +14,7 @@ def select_sub(sub_code,limit = 5):
     conn = mysql.connector.connect(host='localhost', user='root', passwd="Qseytak144469@", database='ques_data')
     cur = conn.cursor()
     cur.execute('''
-    select ques,opt1,opt2,opt3,opt4,ans from questions 
+    select ques,opt1,opt2,opt3,opt4,ans,sub_sec from questions 
     where sub_code = %s
     order by RAND() limit %s''',(sub_code,limit))
     result = cur.fetchall()

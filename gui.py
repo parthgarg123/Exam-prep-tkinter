@@ -2,39 +2,133 @@ import tkinter
 import mysql.connector
 from pathlib import Path
 from sql_connector import select_sub
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
 
 
-def page3(result,subcode='23CPP'):
-    no_corr_ans=0
-    ques_no = 1
+def page4(designation, result, topics):
     OUTPUT_PATH = Path(__file__).parent
-    ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build/assets3/frame0")
+    ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build1/build/assets/frame0")
+
+    def relative_to_assets(path: str) -> Path:
+        return ASSETS_PATH / Path(path)
+
+    canvas3 = Canvas(
+        window,
+        bg="#FFFFFF",
+        height=832,
+        width=1280,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+
+    canvas3.place(x=0, y=0)
+    canvas3.create_rectangle(
+        0.0,
+        0.0,
+        1280.0,
+        99.0,
+        fill="#4292F3",
+        outline="")
+
+    canvas3.create_text(
+        33.0,
+        19.0,
+        anchor="nw",
+        text=result[1],
+        fill="#FFFFFF",
+        font=("RobotoRoman Regular", 32 * -1)
+    )
+
+    canvas3.create_text(
+        33.0,
+        61.0,
+        anchor="nw",
+        text=designation,
+        fill="#FFFFFF",
+        font=("RobotoRoman Regular", 20 * -1)
+    )
+
+    canvas3.create_text(
+        1131.0,
+        24.0,
+        anchor="nw",
+        text=f"STD -{result[2]}",
+        fill="#FFFFFF",
+        font=("RobotoRoman Regular", 28 * -1)
+    )
+
+    canvas3.create_text(
+        169.0,
+        674.0,
+        anchor="nw",
+        text="Thank You for using examify!",
+        fill="#000000",
+        font=("RobotoItalic Medium", 64 * -1)
+    )
+
+    canvas3.create_text(
+        33.0,
+        139.0,
+        anchor="nw",
+        text="Report:",
+        fill="#000000",
+        font=("RobotoItalic Medium", 40 * -1)
+    )
+
+    button_image_1 = PhotoImage(
+        file=relative_to_assets("button_1.png"))
+    button_1 = Button(
+        canvas3,
+        image=button_image_1,
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: print("button_1 clicked"),
+        relief="flat"
+    )
+    button_1.place(
+        x=1046.0,
+        y=145.0,
+        width=199.0,
+        height=51.0
+    )
+    window.resizable(False, False)
+    window.mainloop()
+
+
+def page3(designation, result, subcode='23CPP'):
+    ques_no = 1
+    topics = {}
+
     def update(j):
-        canvas2.itemconfig(ques,text=questions[j][0])
+        canvas2.itemconfig(ques, text=questions[j][0])
         str1.set(questions[j][1])
         str2.set(questions[j][2])
         str3.set(questions[j][3])
         str4.set(questions[j][4])
 
-    def next(ans,j):
-        if j<6:
+    def next_ques(ans, j):
+        if j < 11:
             if j != 0:
                 corr_ans = questions[j - 1][5][-1]
-            nonlocal ques_no,no_corr_ans
-            ques_no+=1
-            if ans==corr_ans:
+                sub_topic = questions[j - 1][6]
+            nonlocal ques_no, topics
+            if sub_topic not in topics:
+                topics[sub_topic] = [0, 0]
+            topics[sub_topic][1] += 1
+            ques_no += 1
+            if ans == corr_ans:
                 print("correct")
-                no_corr_ans+=1
+                topics[sub_topic][0] += 1
             else:
                 print("wrong")
-        if j<5:
+        if j < 10:
             update(j)
+        if j == 10:
+            print(topics)
+            page4(designation, result, topics)
 
-
-    def relative_to_assets(path: str) -> Path:
-        return ASSETS_PATH / Path(path)
-    questions=select_sub(sub_code=subcode)
+    questions = select_sub(sub_code=subcode, limit=10)
 
     canvas2 = Canvas(
         window,
@@ -63,13 +157,12 @@ def page3(result,subcode='23CPP'):
         fill="#FFFFFF",
         font=("RobotoRoman Regular", 32 * -1)
     )
-    if result[0]=='stu': desig = 'Student'
-    else: desig = 'Teacher'
+
     canvas2.create_text(
         33.0,
         61.0,
         anchor="nw",
-        text=desig,
+        text=designation,
         fill="#FFFFFF",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -103,7 +196,7 @@ def page3(result,subcode='23CPP'):
 
     )
 
-    str1=tkinter.StringVar(value='')
+    str1 = tkinter.StringVar(value='')
     button_1 = Button(
         canvas2,
         textvariable=str1,
@@ -111,7 +204,7 @@ def page3(result,subcode='23CPP'):
         font=("RobotoRoman Regular", 20 * -1),
         highlightthickness=0,
         wraplength=1050,
-        command=lambda: next('1',j=ques_no),
+        command=lambda: next_ques('1', j=ques_no),
         relief="flat"
     )
     button_1.place(
@@ -127,7 +220,7 @@ def page3(result,subcode='23CPP'):
         borderwidth=0,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: next('3',j=ques_no),
+        command=lambda: next_ques('3', j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -144,7 +237,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str4,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: next('4',j=ques_no),
+        command=lambda: next_ques('4', j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -161,7 +254,7 @@ def page3(result,subcode='23CPP'):
         textvariable=str2,
         highlightthickness=0,
         font=("RobotoRoman Regular", 20 * -1),
-        command=lambda: next('2',j=ques_no),
+        command=lambda: next_ques('2', j=ques_no),
         wraplength=1050,
         relief="flat"
     )
@@ -173,8 +266,6 @@ def page3(result,subcode='23CPP'):
     )
 
     update(0)
-
-
 
     window.resizable(False, False)
     window.mainloop()
@@ -214,13 +305,15 @@ def page2(result):
         fill="#FFFFFF",
         font=("RobotoRoman Regular", 32 * -1)
     )
-    if result[0]=='stu': desig = 'Student'
-    else: desig = 'Teacher'
+    if result[0] == 'stu':
+        designation = 'Student'
+    else:
+        designation = 'Teacher'
     canvas1.create_text(
         33.0,
         61.0,
         anchor="nw",
-        text=desig,
+        text=designation,
         fill="#FFFFFF",
         font=("RobotoRoman Regular", 20 * -1)
     )
@@ -258,7 +351,7 @@ def page2(result):
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page3(result,subcode="23CPP"),
+        command=lambda: page3(designation, result, subcode="23CPP"),
         relief="flat"
     )
     button_1.place(
@@ -275,7 +368,7 @@ def page2(result):
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page3(result,subcode='23PYPY'),
+        command=lambda: page3(designation, result, subcode='23PYPY'),
         relief="flat"
     )
     button_2.place(
@@ -292,7 +385,7 @@ def page2(result):
         image=button_image_3,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: page3(result,subcode='23MA'),
+        command=lambda: page3(designation, result, subcode='23MA'),
         relief="flat"
     )
     button_3.place(
@@ -331,22 +424,22 @@ def page2(result):
 
 
 def login(event):
-    conn = mysql.connector.connect(host = 'localhost',user ='root',passwd = "Qseytak144469@",database='ques_data')
+    conn = mysql.connector.connect(host='localhost', user='root', passwd="Qseytak144469@", database='ques_data')
     cur = conn.cursor()
     uname = entry_2.get()
     pswd = entry_1.get()
     qry = "SELECT * FROM login WHERE username = %s AND password1=%s AND desig=%s"
-    cur.execute(qry,(uname,pswd,event))
+    cur.execute(qry, (uname, pswd, event))
     result = cur.fetchall()
     if result:
-        if event=='stu':
+        if event == 'stu':
             page2(result[0][2:])
         else:
             messagebox.showinfo("Status", "Login successful")
         window.destroy()
         return True
     else:
-        messagebox.showinfo("Status","Login Unsuccessful")
+        messagebox.showinfo("Status", "Login Unsuccessful")
         return False
 
 
@@ -359,30 +452,30 @@ def relative_to_assets(path: str) -> Path:
 
 
 def on_enter_user(event):
-    if entry_2.get()=='Username':
-        entry_2.delete(0,tkinter.END)
-def on_enter_pass(event):
-    if entry_1.get()=='Password':
-        entry_1.delete(0,tkinter.END)
+    if entry_2.get() == 'Username':
+        entry_2.delete(0, tkinter.END)
 
+
+def on_enter_pass(event):
+    if entry_1.get() == 'Password':
+        entry_1.delete(0, tkinter.END)
 
 
 window = Tk()
 
 window.geometry("1280x832")
-window.configure(bg = "#FFFFFF")
-
+window.configure(bg="#FFFFFF")
 
 canvas = Canvas(
     window,
-    bg = "#FFFFFF",
-    height = 832,
-    width = 1280,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
+    bg="#FFFFFF",
+    height=832,
+    width=1280,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge"
 )
-canvas.place(x = 0, y = 0)
+canvas.place(x=0, y=0)
 canvas.create_rectangle(
     0.0,
     0.0,
@@ -430,11 +523,11 @@ entry_bg_1 = canvas.create_image(
     471.0,
     image=entry_image_1
 )
-entry_1 = Entry(#password
+entry_1 = Entry(  # password
     window,
     bd=0,
     bg="#FFFFFF",
-    font=("Roboto",16),
+    font=("Roboto", 16),
     fg="#000716",
     highlightthickness=0,
     show='*'
@@ -461,11 +554,11 @@ entry_bg_2 = canvas.create_image(
     378.0,
     image=entry_image_2
 )
-entry_2 = Entry(#username
+entry_2 = Entry(  # username
     window,
     bd=0,
     bg="#FFFFFF",
-    font=("Roboto",16),
+    font=("Roboto", 16),
     fg="#000716",
     highlightthickness=0
 )
@@ -484,7 +577,7 @@ entry_2.bind(
     on_enter_user
 )
 
-button_image_1 = PhotoImage(#login as teacher
+button_image_1 = PhotoImage(  # login as teacher
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
@@ -501,7 +594,7 @@ button_1.place(
     height=55.0
 )
 
-button_image_2 = PhotoImage(#login as student
+button_image_2 = PhotoImage(  # login as student
     file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
