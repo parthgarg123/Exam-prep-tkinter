@@ -3,11 +3,12 @@ import mysql.connector
 from pathlib import Path
 from sql_connector import select_sub
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
-
+from charts import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 def page4(designation, result, topics):
     OUTPUT_PATH = Path(__file__).parent
-    ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build1/build/assets/frame0")
+    ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/parthagarwal/Desktop/build/assets4/frame0")
 
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
@@ -59,11 +60,12 @@ def page4(designation, result, topics):
     )
 
     canvas3.create_text(
-        169.0,
-        674.0,
+        210.0,
+        690.0,
         anchor="nw",
         text="Thank You for using examify!",
         fill="#000000",
+        justify='center',
         font=("RobotoItalic Medium", 64 * -1)
     )
 
@@ -75,7 +77,18 @@ def page4(designation, result, topics):
         fill="#000000",
         font=("RobotoItalic Medium", 40 * -1)
     )
-
+    fig1 = topics_composition_pie(topics)
+    chart1 = FigureCanvasTkAgg(fig1,master = canvas3)
+    fig2 = answer_ratio_bar(topics)
+    chart2 = FigureCanvasTkAgg(fig2,master=canvas3)
+    chart1.get_tk_widget().place(
+        x = 72,
+        y=243
+    )
+    chart2.get_tk_widget().place(
+        x=672,
+        y=243
+    )
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = Button(
